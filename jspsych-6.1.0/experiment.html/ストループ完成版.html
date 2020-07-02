@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="../jspsych.js"></script>
+  <script src="../plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="../plugins/jspsych-survey-text.js"></script>
+  <script src="../plugins/jspsych-fullscreen.js"></script>
+  <script src="../plugins/jspsych-survey-multi-choice.js"></script>
+  <link rel="stylesheet" href="../css/jspsych.css"></link>
+</head>
+<body></body>
+<script>
+
+  var par_info = {};
+
+  var par_id = {
+    type: 'survey-text',
+    questions: [
+      {prompt: '学籍番号を入力してください', columns: 10, required: true, name: 'participantID'},
+    ],
+    button_label: '次へ',
+    on_finish: function(data) {
+      par_info.id = JSON.parse(data.responses).participantID // 一時保存
+    }
+  };
+
+  var age = {
+    type: 'survey-text',
+    questions: [
+      {prompt: '年齢を入力してください', columns: 3, required: true, name: 'age'},
+    ],
+    button_label: '次へ',
+    on_finish: function(data) {
+      par_info.age = JSON.parse(data.responses).age // 一時保存
+    }
+  };
+
+  var gender = {
+    type: 'survey-multi-choice',
+    questions: [
+      {prompt: "性別を選択してください", options: ['男性', '女性', 'その他'], required: true, horizontal: true, name: 'gender'},
+    ],
+    button_label: '次へ',
+    on_finish: function(data) {
+      par_info.gender = JSON.parse(data.responses).gender // 一時保存
+    }
+  };
+
+  var fullscreen = {
+    type: 'fullscreen',
+    message: '<p>以下のボタンをクリックすると，画面は全画面表示に切り替わります。全画面表示を止めたい場合はEscキーを押してください。</p>' +
+             '<p>全画面になると課題が開始されます。</p>',
+    button_label: "全画面表示に切り替え",
+    fullscreen_mode: true
+  };
+
+var instructions = {
+  type: 'html-keyboard-response',
+  stimulus: "<p style = 'text-align:left'>これからストループ課題を行ってもらいます</p>" +
+            "<p style = 'text-align:left'>この課題では、以下のような色のついた単語を見てもらいます</p>"+
+            "<p style='color:red;font-size:80pt;'>あお</p>" +
+            "<p style = 'text-align:left'>単語の意味は無視して、それぞれの単語の「色」を以下のキーボードを押して回答してください</p>"+
+            "<p style = 'text-align:left'>・<span style = 'color red'>あか</span>の単語ならRを押す</p>" +
+            "<p style = 'text-align:left'>・<span style = 'color blue'>あお</span>の単語ならBを押す</p>" +
+            "<p style = 'text-align:left'>・<span style = 'color green'>みどり</span>の単語ならGを押す</p>" +
+            "<p style = 'text-align:left'>・<span style = 'color yellow'>きいろ</span>の単語ならYを押す</p>" +
+            "<p style = 'text-align:left'>上の例の場合だと、赤色で「あお」と書いてありますので、Rを押してください</p>"+
+            "<p style = 'text-align:left'>まず練習を行います。準備ができたらいずれかのキーを押して課題を始めてください。</p>",
+  post_trial_gap:2000
+};
+
+  var stimuli = [
+   {
+     stimulus: "<p style='color:red;font-size:80pt;'>あか</p>",
+     data: { no:'1', stim_type: 'congruent', correct_key_press: '82'}
+   },
+   {
+     stimulus: "<p style='color:yellow;font-size:80pt;'>あか</p>",
+     data: { no:'2', stim_type: 'incongruent', correct_key_press: '89'}
+   },
+   {
+     stimulus: "<p style='color:blue;font-size:80pt;'>あか</p>",
+     data: { no:'3', stim_type: 'incongruent', correct_key_press: '66'}
+   },
+   {
+     stimulus: "<p style='color:green;font-size:80pt;'>あか</p>",
+     data: { no:'4', stim_type: 'incongruent', correct_key_press: '71'}
+   },
+   {
+     stimulus: "<p style='color:green;font-size:80pt;'>みどり</p>",
+     data: { no:'5', stim_type: 'congruent', correct_key_press: '71'}
+   },
+   {
+     stimulus: "<p style='color:red;font-size:80pt;'>みどり</p>" ,
+     data: { no:'6', stim_type: 'incongruent', correct_key_press: '82'}
+   },
+   {
+     stimulus: "<p style='color:yellow;font-size:80pt;'>みどり</p>",
+     data: { no:'7', stim_type: 'incongruent', correct_key_press: '89'}
+   },
+   {
+     stimulus: "<p style='color:blue;font-size:80pt;'>みどり</p>",
+     data: { no:'8', stim_type: 'incongruent', correct_key_press: '66'}
+   },
+   {
+     stimulus: "<p style='color:red;font-size:80pt;'>き</p>",
+     data: { no:'9', stim_type: 'incongruent', correct_key_press: '82'}
+   },
+   {
+     stimulus: "<p style='color:green;font-size:80pt;'>き</p>",
+     data: { no:'10', stim_type: 'incongruent', correct_key_press: '71'}
+   },
+   {
+     stimulus: "<p style='color:yellow;font-size:80pt;'>き</p>",
+     data: { no:'11', stim_type: 'congruent', correct_key_press: '89'}
+   },
+   {
+     stimulus: "<p style='color:blue;font-size:80pt;'>き</p>",
+     data: { no:'12', stim_type: 'incongruent', correct_key_press: '66'}
+   },
+   {
+     stimulus: "<p style='color:red;font-size:80pt;'>あお</p>",
+     data: { no:'13', stim_type: 'incongruent', correct_key_press: '82'}
+   },
+   {
+     stimulus: "<p style='color:green;font-size:80pt;'>あお</p>",
+     data: { no:'14', stim_type: 'incongruent', correct_key_press: '71'}
+   },
+   {
+     stimulus: "<p style='color:yellow;font-size:80pt;'>あお</p>",
+     data: { no:'15', stim_type: 'incongruent', correct_key_press: '89'}
+   },
+   {
+     stimulus: "<p style='color:blue;font-size:80pt;'>あお</p>",
+     data: { no:'16', stim_type: 'congruent', correct_key_press: '66'}
+   }
+  ];
+
+  var fixation = {
+   type: 'html-keyboard-response',
+   stimulus: '<div style="font-size:60px;">+</div>',
+   choices: jsPsych.NO_KEYS,
+   trial_duration: 1000,
+   post_trial_gap: 1000,
+ };
+
+  var pre_stroop = {
+    timeline: [{
+    type: "html-keyboard-response",
+    trial_duration: 2000,
+    stimulus: jsPsych.timelineVariable('stimulus'),
+    prompt: '赤色ならR,  青色ならB,  緑色ならG,  黄色ならY',
+    choices: [82, 66, 89, 71],
+    }],
+    timeline_variables:stimuli,
+    post_trial_gap: 1000,
+    sample: {type: 'fixed-repetitions',size: 2}
+  };
+
+  var go_main = {
+    type: 'html-keyboard-response',
+    stimulus: "<p style = 'text-align:left'>練習は以上です。ただいまより本番を行ってもらいます。</p>" +
+    　　　　　 "<p style = 'text-align:left'>本番の課題は音楽を聴取しながら行っていただきます。</p>" +
+              "<p style = 'text-align:left'>メールに記載したもう一つの実験(実験１)で音楽を再生してください。</p>" +
+              "<p style = 'text-align:left'>準備ができたらいずれかのキーを押して課題を始めてください。</p>",
+            };
+
+  var main_stroop = {
+    timeline: [{
+    type: "html-keyboard-response",
+    trial_duration: 2000,
+    stimulus: jsPsych.timelineVariable('stimulus'),
+    prompt: '赤色ならR,  青色ならB,  緑色ならG,  黄色ならY',
+    choices: [82, 66, 89, 71],
+    }],
+    timeline_variables:stimuli,
+    post_trial_gap: 1000,
+    data: jsPsych.timelineVariable('data'),
+    on_finish: function(data){
+      var correct = 0;
+      if(data.correct_key_press == data.key_press){
+        correct = 1;
+      }
+      data.correct = correct;
+    },
+    sample: {type: 'fixed-repetitions',size: 6}
+  };
+
+var finish = {
+  type: 'html-keyboard-response',
+  stimulus: "<p style = 'text-align:left'>以上で課題は終了です。参加していただきありがとうございました。</p>" +
+            "<p style = 'text-align:left'>ESCキーを押して全画面表示を終了し、ウィンドウを閉じてください。</p>",
+};
+
+
+
+  var timeline = [];
+  timeline.push(par_id);
+  timeline.push(age);
+  timeline.push(gender);
+  timeline.push(instructions);
+  timeline.push(fixation);
+  timeline.push(pre_stroop);
+  timeline.push(go_main);
+  timeline.push(fullscreen);
+  timeline.push(fixation);
+  timeline.push(main_stroop);
+  timeline.push(finish);
+
+  jsPsych.init({
+   timeline: timeline,
+   on_finish: function() {
+     jsPsych.data.displayData();
+   }
+ });
+ </script>
+
+ </html>
